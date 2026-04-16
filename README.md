@@ -1,37 +1,81 @@
-# Mall of America Interactive Sales Deck
+# Mall of America DigiDeck
 
-A cinematic, browser-based sales deck designed to help Mall of America commercial teams convert leasing, sponsorship, and event opportunities into action.
+A premium, full-screen interactive sales deck built for high-stakes commercial conversations.
+This project reframes a traditional marketing website into a cinematic, chapter-based presentation experience optimized for leasing, sponsorship, and event conversion.
 
-## Live Demo
+## Submission Context
 
-- Live URL: Add after deployment
-- Repository: Add public GitHub link
+This repository is prepared as a senior frontend engineering submission.
 
-## Tech Stack
+What this demonstrates:
+- Product thinking: transformed the experience model from scroll site to guided executive deck.
+- Frontend architecture: modular slide engine with clear separation of layout, content, and behavior.
+- Motion craft: transition choreography and component-level animation using Framer Motion.
+- Delivery discipline: deployable monorepo structure, environment separation, production hosting on Vercel.
+
+## Live Deployment
+
+- Status: Deployed on Vercel
+- Frontend: Add production URL
+- Backend API: Add production URL
+
+## Core Experience
+
+- Full-screen slide navigation with chapter-aware top navigation
+- 13-slide narrative flow across Overview, Retail, Entertainment, Events, Sponsorship, and Leasing
+- Split-layout content slides with directional storytelling
+- Gallery and quote slides for visual rhythm and persuasion
+- Conversion-focused CTA slide for lead capture pathways
+
+## Technical Stack
 
 | Layer | Technology |
 | --- | --- |
-| Frontend | React 19 + Vite |
-| Styling | Tailwind CSS v4 + Custom CSS variables |
-| Animation | Framer Motion |
-| Routing | React Router |
-| HTTP Client | Axios via centralized services layer |
-| Backend | Node.js + Express 5 + MongoDB (Mongoose) |
-| Dev Tooling | Nodemon |
-| Icons | Lucide React |
-| Fonts | Playfair Display + DM Sans |
+| Frontend | React 19, Vite |
+| Styling | Tailwind CSS v4, custom CSS tokens |
+| Motion | Framer Motion |
+| Routing | React Router DOM |
+| HTTP | Axios service layer |
+| Backend | Node.js, Express 5, Mongoose |
+| Dev Runtime | Nodemon |
+| Design System | Playfair Display + DM Sans, gold-on-graphite theme |
 
-## Folder Structure
+## Architecture Overview
 
-- client: React application and interactive deck experience
-- server: Express API for contact and inquiry handling
+### Frontend
 
-## Setup Instructions
+- Slide orchestration: client/src/components/deck
+- State and navigation: client/src/context/DeckContext.jsx
+- Slide definitions and content model: client/src/data/slides.js
+- Slide components: client/src/components/slides
+- Shared UI primitives: client/src/components/common
 
-### 1. Clone and Install
+### Backend
+
+- API app bootstrap: server/src/index.js, server/src/app.js
+- Domain controllers: auth, contact, inquiry
+- Route composition: server/src/routes
+- Persistence models: server/src/models
+
+## Engineering Decisions
+
+1. Single source of truth for narrative data
+- All slide content and configuration live in one data model (slides.js), reducing coupling and speeding iteration.
+
+2. Componentized storytelling system
+- Hero, Feature, Stats, Quote, Gallery, and CTA slide types are reusable and animation-ready.
+
+3. Centralized API connector pattern
+- UI components do not call fetch/axios directly; services own request logic for maintainability.
+
+4. Performance-aware UX
+- Full viewport rendering with overflow control and bounded layouts to avoid jank in presentation mode.
+
+## Local Development
+
+### Install
 
 ```bash
-# from project root
 cd client
 npm install
 
@@ -39,17 +83,18 @@ cd ../server
 npm install
 ```
 
-### 2. Configure Environment Variables
+### Environment Setup
 
-Frontend:
-- Copy client/.env.example to client/.env
-- Set VITE_API_BASE_URL to your backend API URL
+Frontend env (client/.env):
+- VITE_API_BASE_URL
 
-Backend:
-- Copy server/.env.example to server/.env
-- Set PORT, MONGO_URI, JWT_SECRET, CLIENT_URL
+Backend env (server/.env):
+- PORT
+- MONGO_URI
+- JWT_SECRET
+- CLIENT_URL
 
-### 3. Run Development
+### Run
 
 ```bash
 cd client
@@ -59,96 +104,35 @@ cd ../server
 npm run dev
 ```
 
-## Core Product Decisions
+## Deployment Notes
 
-- Dark, cinematic visual system with premium gold accents to position MOA as a destination platform
-- Non-linear sticky navigation so decision-makers can jump by business priority
-- Video-first hero and modular sections to maximize emotional impact in the first moments
-- Dedicated services layer with centralized api connector to keep components clean and scalable
+The project is configured for split deployment on Vercel:
 
-## API Services Layer
+- Frontend project root: client
+- Backend project root: server
 
-All client API communication is centralized in:
-- client/src/services/apiConnector.js
+Recommended production sequence:
+1. Deploy backend and capture API URL.
+2. Set frontend VITE_API_BASE_URL.
+3. Deploy frontend.
+4. Update backend CLIENT_URL with final frontend domain.
 
-Feature services:
-- authService.js
-- inquiryService.js
-- contactService.js
-- analyticsService.js
+## Quality Checklist
 
-No components or pages make direct axios or fetch calls.
+- Responsive full-screen rendering
+- Animated slide transitions
+- Non-broken image and gallery fallbacks
+- Chapter navigation and directional arrows
+- API-ready structure for contact and inquiry workflows
 
-## AI Usage
+## Future Enhancements
 
-Suggested AI workflow used for this build direction:
-- Midjourney for cinematic environment renders
-- DALL-E for section visuals where official media is limited
-- Claude or GPT for messaging refinement and content strategy drafts
+- Accessibility hardening (reduced-motion mode, keyboard-first slide controls)
+- CMS integration for non-technical content updates
+- Analytics instrumentation by slide/chapter/CTA
+- Visual regression tests for high-confidence release cycles
 
-## What I Would Improve With More Time
+## Author Note
 
-- Replace placeholder video with licensed official MOA footage pipeline
-- Add CMS-driven content blocks for sales team updates
-- Add advanced analytics dashboard for section-level engagement insights
-- Add robust authentication and admin inquiry management UI
-
-## Deployment
-
-Frontend:
-```bash
-cd client
-vercel --prod
-```
-
-Backend:
-```bash
-cd server
-vercel --prod
-```
-
-Set environment variables in your deployment dashboard before publishing.
-
-## GitHub + Vercel Ready Checklist
-
-1. Create GitHub repository and push code
-
-```bash
-git init
-git add .
-git commit -m "Initial MOA sales deck submission"
-git branch -M main
-git remote add origin <your-github-repo-url>
-git push -u origin main
-```
-
-2. Deploy backend first on Vercel (Project 1)
-- Import repository in Vercel
-- Set Root Directory to `server`
-- Framework Preset: `Other`
-- Build command: leave default
-- Output directory: not required
-
-Required backend environment variables:
-- `MONGO_URI`
-- `CLIENT_URL` (your deployed frontend URL)
-- `JWT_SECRET`
-- `NODE_ENV=production`
-
-3. Deploy frontend on Vercel (Project 2)
-- Import same repository again in Vercel
-- Set Root Directory to `client`
-- Framework Preset: `Vite`
-
-Required frontend environment variables:
-- `VITE_API_BASE_URL=https://<your-backend-vercel-domain>/api`
-- `VITE_APP_NAME=Mall of America Sales Deck`
-
-4. Re-deploy backend once frontend URL is final
-- Update backend `CLIENT_URL` to exact frontend production URL
-- Trigger redeploy in Vercel
-
-5. Final smoke checks
-- Open `https://<backend-domain>/api/health`
-- Submit inquiry from frontend contact page
-- Verify data appears in MongoDB collection
+This build intentionally balances brand storytelling, technical rigor, and conversion focus.
+It is designed to be both stakeholder-ready and engineering-scalable.
