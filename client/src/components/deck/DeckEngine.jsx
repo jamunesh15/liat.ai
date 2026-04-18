@@ -4,6 +4,7 @@ import SlideRenderer from './SlideRenderer';
 import DeckNav from './DeckNav';
 import SlideArrows from './SlideArrows';
 import SlideCounter from './SlideCounter';
+import InquiryModal from '../common/InquiryModal';
 
 export default function DeckEngine() {
   const { next, prev } = useDeck();
@@ -24,6 +25,7 @@ export default function DeckEngine() {
       <SlideRenderer />
       <SlideArrows />
       <SlideCounter />
+      <InquiryModal />
     </div>
   );
 }

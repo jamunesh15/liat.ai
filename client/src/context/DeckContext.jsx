@@ -5,6 +5,10 @@ const DeckContext = createContext();
 
 export const DeckProvider = ({ children }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [inquiryModal, setInquiryModal] = useState({
+    open: false,
+    action: null,
+  });
   const total = slides.length;
 
   const next = useCallback(() => {
@@ -24,8 +28,35 @@ export const DeckProvider = ({ children }) => {
     if (index !== -1) setCurrentSlide(index);
   }, []);
 
+  const openInquiryModal = useCallback((action) => {
+    setInquiryModal({
+      open: true,
+      action,
+    });
+  }, []);
+
+  const closeInquiryModal = useCallback(() => {
+    setInquiryModal({
+      open: false,
+      action: null,
+    });
+  }, []);
+
   return (
-    <DeckContext.Provider value={{ currentSlide, total, next, prev, goToSlide, goToChapter, slides }}>
+    <DeckContext.Provider
+      value={{
+        currentSlide,
+        total,
+        next,
+        prev,
+        goToSlide,
+        goToChapter,
+        slides,
+        inquiryModal,
+        openInquiryModal,
+        closeInquiryModal,
+      }}
+    >
       {children}
     </DeckContext.Provider>
   );
